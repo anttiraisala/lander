@@ -18,18 +18,22 @@ public class Thrust : MonoBehaviour {
 	[SerializeField]
 	private float height;
 
+    private float startX, startZ;
+
 	//private Transform transform;
 
 	void Start()
 	{
         thrust = 20.0f;
 		rb = GetComponent<Rigidbody>();
+        startX = transform.position.x;
+        startZ = transform.position.z;
 
 	}
 
 	void FixedUpdate()
 	{
-        Vector3 currentPosition = new Vector3(0, transform.position.y, 0);
+        Vector3 currentPosition = new Vector3(startX, transform.position.y, startZ);
         transform.position = currentPosition;
 		transform.rotation = Quaternion.identity;
 
