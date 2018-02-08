@@ -9,12 +9,16 @@ public class Thrust : MonoBehaviour {
     [SerializeField]
 	private Rigidbody rb;
 
+    public Transform ground;
+
     [SerializeField]
 	private Vector3 previousPosition;
-    [SerializeField]
+	[SerializeField]
 	private float speed;
+	[SerializeField]
+	private float height;
 
-    //private Transform transform;
+	//private Transform transform;
 
 	void Start()
 	{
@@ -28,6 +32,12 @@ public class Thrust : MonoBehaviour {
         Vector3 currentPosition = new Vector3(0, transform.position.y, 0);
         transform.position = currentPosition;
 		transform.rotation = Quaternion.identity;
+
+        // Calculate height
+        if (ground != null)
+        {
+            height = (currentPosition.y - 0.5f) - (ground.position.y + 0.5f);
+        }
 
         // Calculate speed
         if(previousPosition!=null){
