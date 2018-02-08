@@ -12,9 +12,9 @@ public class ObjectController : MonoBehaviour
     void Start()
     {
 
-        for (int z = 0; z < 10; z++)
+        for (float z = 0; z < 10; z += 0.5f)
         {
-            for (int x = 0; x < 10; x++)
+            for (float x = 0; x < 10; x += 0.5f)
             {
                 float xCenter = (float)x * 10.0f;
                 float zCenter = (float)z * 10.0f;
