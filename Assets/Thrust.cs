@@ -5,8 +5,13 @@ using UnityEngine;
 public class Thrust : MonoBehaviour {
 
     [SerializeField]
-    private float thrust;
-    [SerializeField]
+    private bool simulationRunning;
+
+	[SerializeField]
+	private float motorPower;
+	[SerializeField]
+	private float thrust;
+	[SerializeField]
 	private Rigidbody rb;
 
     public Transform ground;
@@ -18,21 +23,43 @@ public class Thrust : MonoBehaviour {
 	[SerializeField]
 	private float height;
 
-    private float startX, startZ;
+	[SerializeField]
+	private float landingSpeed;
+	[SerializeField]
+	private float collisionRelativeVelocity;
+	[SerializeField]
+	private bool hasLanded;
+
+    [SerializeField]
+    private float fitness;
+
+
+
+	private float startX, startZ;
 
 	//private Transform transform;
 
 	void Start()
 	{
-        thrust = 20.0f;
+        motorPower = 20.0f;
 		rb = GetComponent<Rigidbody>();
         startX = transform.position.x;
         startZ = transform.position.z;
+
+        simulationRunning = true;
+        hasLanded = false;
+        fitness = float.NegativeInfinity;
+
+		Debug.Log("alkaa");
 
 	}
 
 	void FixedUpdate()
 	{
+        if(!simulationRunning){
+            return;
+        }
+
         Vector3 currentPosition = new Vector3(startX, transform.position.y, startZ);
         transform.position = currentPosition;
 		transform.rotation = Quaternion.identity;
@@ -46,18 +73,64 @@ public class Thrust : MonoBehaviour {
         // Calculate speed
         if(previousPosition!=null){
             Vector3 speedVector = currentPosition - previousPosition;
-            speed = speedVector.magnitude;
+            speed = speedVector.magnitude / Time.fixedDeltaTime;
         }
         previousPosition = currentPosition;
 
+        thrust = 0.0f;
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            rb.AddForce(transform.up * thrust);
+            thrust = 1.0f;
         }
+
+        if (thrust > 0.0f)
+        {
+            rb.AddForce(transform.up * motorPower * thrust);
+        }
+
+
+		// Should simulation stop?
+		if (currentPosition.y <= -1.0f)
+		{
+            Destroy(rb);
+			StopSimulation();
+		}
+		if (currentPosition.y >= 200.0f)
+		{
+			Destroy(rb);
+			StopSimulation();
+		}
 	}
-	
-	// Update is called once per frame
+
+    void StopSimulation(){
+        simulationRunning = false;
+
+        if(hasLanded==true)
+        {
+            fitness = 1.0f / landingSpeed;
+        }
+    }
+
 	void Update () {
 		
+	}
+
+	void OnCollisionEnter(Collision collision)
+	{
+        Debug.Log("collision");
+
+        landingSpeed = speed;
+		foreach (ContactPoint contact in collision.contacts)
+		{
+			//Debug.DrawRay(contact.point, contact.normal, Color.white);
+		}
+        if (collision.relativeVelocity.magnitude > 2)
+        {
+            
+        }
+        collisionRelativeVelocity = collision.relativeVelocity.magnitude;
+        hasLanded = true;
+
+        StopSimulation();
 	}
 }
