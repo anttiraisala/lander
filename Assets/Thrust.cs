@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using ArtificialNeuralNetwork;
+using ArtificialNeuralNetwork.Factories;
+
 public class Thrust : MonoBehaviour {
 
     [SerializeField]
@@ -33,6 +36,11 @@ public class Thrust : MonoBehaviour {
     [SerializeField]
     private float fitness;
 
+	private INeuralNetwork network;
+	[SerializeField]
+	private float output;
+
+
 
 
 	private float startX, startZ;
@@ -50,9 +58,19 @@ public class Thrust : MonoBehaviour {
         hasLanded = false;
         fitness = float.NegativeInfinity;
 
-		Debug.Log("alkaa");
+		var numInputs = 2;
+		var numOutputs = 1;
+		var numHiddenLayers = 1;
+		var numNeuronsInHiddenLayer = 5;
+		network = NeuralNetworkFactory.GetInstance().Create(numInputs, numOutputs, numHiddenLayers, numNeuronsInHiddenLayer);
 
+		Debug.Log("alkaa");
 	}
+
+    public void SetGround(Transform ground)
+    {
+        this.ground = ground;
+    }
 
 	void FixedUpdate()
 	{
@@ -61,8 +79,8 @@ public class Thrust : MonoBehaviour {
         }
 
         Vector3 currentPosition = new Vector3(startX, transform.position.y, startZ);
-        transform.position = currentPosition;
-		transform.rotation = Quaternion.identity;
+        /*transform.position = currentPosition;
+		transform.rotation = Quaternion.identity;*/
 
         // Calculate height
         if (ground != null)
@@ -77,7 +95,14 @@ public class Thrust : MonoBehaviour {
         }
         previousPosition = currentPosition;
 
+		var inputs = new double[] { (float)height, (float)speed };
+		network.SetInputs(inputs);
+		network.Process();
+		var outputs = network.GetOutputs();
+		output = (float)outputs[0];
+
         thrust = 0.0f;
+        thrust = output >= 0 ? thrust : -1.0f * thrust;
         if (Input.GetKey(KeyCode.UpArrow))
         {
             thrust = 1.0f;
