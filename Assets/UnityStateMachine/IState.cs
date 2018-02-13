@@ -33,12 +33,6 @@ namespace UnityStateMachine
         }
 
         public State() { }
-        /*
-        public void SetOwner(StateMachine owner)
-        {
-            OwnerStateMachine = owner;
-			Debug.Log("State.SetOwner::ownerStateMachine[" + OwnerStateMachine + "]");
-        }*/
 
         public abstract void Enter();
 
