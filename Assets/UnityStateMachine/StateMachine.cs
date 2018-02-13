@@ -19,7 +19,7 @@ namespace UnityStateMachine
             }
 
             currentState = nextState;
-            currentState.SetOwner(this);
+            currentState.OwnerStateMachine = this;
             currentState.Enter();
         }
 

@@ -1,26 +1,26 @@
 ﻿using System;
 using UnityEngine;
-namespace UnityStateMachine
+using UnityStateMachine;
+
+public class StateS2 : State
 {
-    public class StateS2 : State
+    public StateS2()
     {
-        public StateS2()
-        {
-        }
+    }
 
-        public override void Enter()
-        {
-            throw new NotImplementedException();
-        }
+    public override void Enter()
+    {
+        Debug.Log("StateS2::Enter()");
+        Debug.Log("StateS2.OwnerStateMachine[" + this.OwnerStateMachine + "]");
+    }
 
-        public override void Execute()
-        {
-            throw new NotImplementedException();
-        }
+    public override void Execute()
+    {
+        Debug.Log("StateS2::Execute()");
+    }
 
-        public override void Exit()
-        {
-            throw new NotImplementedException();
-        }
+    public override void Exit()
+    {
+        Debug.Log("StateS2::Execute()");
     }
 }

@@ -5,7 +5,11 @@ namespace UnityStateMachine
 {
     public interface IState
     {
-        void SetOwner(StateMachine owner);
+		StateMachine OwnerStateMachine
+		{
+            get;
+            set;
+		}
 
         void Enter();
 
@@ -18,19 +22,23 @@ namespace UnityStateMachine
     {
         private StateMachine ownerStateMachine;
 
-        public State(){}
-        /*
-        public State(StateMachine ownerStateMachine)
+        public StateMachine OwnerStateMachine
         {
-            this.ownerStateMachine = ownerStateMachine;
-            Debug.Log("State::ownerStateMachine[" + ownerStateMachine +"]");
-        }*/
+            get { return this.ownerStateMachine; }
+            set
+            {
+                this.ownerStateMachine = value;
+                Debug.Log("State::OwnerStateMachine=[" + this.ownerStateMachine + "]");
+            }
+        }
 
+        public State() { }
+        /*
         public void SetOwner(StateMachine owner)
         {
-			this.ownerStateMachine = owner;
-			Debug.Log("State.SetOwner::ownerStateMachine[" + owner + "]");
-        }
+            OwnerStateMachine = owner;
+			Debug.Log("State.SetOwner::ownerStateMachine[" + OwnerStateMachine + "]");
+        }*/
 
         public abstract void Enter();
 
