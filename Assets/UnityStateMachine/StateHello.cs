@@ -8,12 +8,6 @@ namespace UnityStateMachine
 		private int currentTickCount;
 
         public StateHello(){}
-        /*
-        public StateHello(StateMachine ownerStateMachine) : base(ownerStateMachine)
-        {
-            Debug.Log("StateHello(StateMachine ownerStateMachine)[" + ownerStateMachine + "]");
-        }*/
-
 		
         public override void Enter()
         {
