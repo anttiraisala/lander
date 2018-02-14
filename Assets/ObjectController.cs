@@ -30,8 +30,10 @@ public class ObjectController : MonoBehaviour
 		float gridXSize = 5.0f;
 		float gridZSize = 5.0f;
 
-		int gridXCount = 6;
-		int gridZCount = 20;
+        int approximateTotalCount = 200;
+
+        int gridXCount = Mathf.Min((int)((float)approximateTotalCount * (1.0f / 12.0f)), 20);
+        int gridZCount = (int)((float)approximateTotalCount / (float)gridXCount);
 
 		camera.transform.position = new Vector3(0.0f + (float)gridXCount * gridXSize / 2.0f, 3.0f, -5.0f);
 
