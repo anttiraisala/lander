@@ -27,15 +27,22 @@ public class ObjectController : MonoBehaviour
 		var numNeuronsInHiddenLayer = 5;
 		network = NeuralNetworkFactory.GetInstance().Create(numInputs, numOutputs, numHiddenLayers, numNeuronsInHiddenLayer);
 
+		float gridXSize = 5.0f;
+		float gridZSize = 5.0f;
 
-		camera.transform.position = new Vector3(50.0f, 3.0f, -5.0f);
+		int gridXCount = 6;
+		int gridZCount = 20;
 
-        for (float z = 0; z < 10; z += 1.0f)
+		camera.transform.position = new Vector3(0.0f + (float)gridXCount * gridXSize / 2.0f, 3.0f, -5.0f);
+
+        for (int iZ = 0; iZ < gridZCount; iZ++)
         {
-            for (float x = 0; x < 10; x += 1.0f)
+            float z = (float)iZ;
+            for (int iX = 0; iX < gridXCount; iX++)
             {
-                float xCenter = (float)x * 10.0f;
-                float zCenter = (float)z * 10.0f;
+                float x = (float)iX;
+                float xCenter = (float)x * gridXSize;
+                float zCenter = (float)z * gridZSize;
 
                 GameObject groundGameObject = Instantiate(ground, new Vector3(xCenter + 0, 0, zCenter+0), Quaternion.identity);
                 GameObject landerGameObject = Instantiate(lander, new Vector3(xCenter + 0, Random.Range(3.0f, 100.0f), zCenter + 0), Quaternion.identity);
