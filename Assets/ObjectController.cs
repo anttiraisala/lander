@@ -55,6 +55,11 @@ public class ObjectController : MonoBehaviour
 			}
         }
 
+
+
+        Debug.Log("before shait");
+        StartCoroutine("Shait");
+        Debug.Log("after shait");
     }
 
     // Update is called once per frame
@@ -66,5 +71,25 @@ public class ObjectController : MonoBehaviour
         network.Process();
         var outputs = network.GetOutputs();
         output = (float)outputs[0];
-    }
+
+		if (Input.GetKey(KeyCode.DownArrow))
+		{
+			StartCoroutine("Shait");
+		}
+	}
+
+    IEnumerator Shait()
+    {
+		for (int i = 0; i < 10; i++)
+		{
+			Debug.Log("Shait_a()[" + i + "]");
+			yield return new WaitForSeconds(1f);
+		}
+		for (int i = 0; i < 10; i++)
+		{
+			Debug.Log("Shait_b()[" + i + "]");
+			yield return new WaitForSeconds(1f);
+		}
+	}
+
 }
