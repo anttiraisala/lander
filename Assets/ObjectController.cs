@@ -30,7 +30,7 @@ public class ObjectController : MonoBehaviour
 		float gridXSize = 5.0f;
 		float gridZSize = 5.0f;
 
-        int approximateTotalCount = 200;
+        int approximateTotalCount = 500;
 
         int gridXCount = Mathf.Min((int)((float)approximateTotalCount * (1.0f / 12.0f)), 20);
         int gridZCount = (int)((float)approximateTotalCount / (float)gridXCount);
